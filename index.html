@@ -22,7 +22,7 @@
       position: relative;
     }
     
-    /* Filter overlay */
+    /* Filter overlay - RED tint like the real app */
     #filter-overlay {
       position: fixed;
       top: 0;
@@ -30,10 +30,9 @@
       right: 0;
       bottom: 0;
       pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: multiply;
-      transition: background-color 0.3s ease, opacity 0.3s ease;
-      background-color: transparent;
+      z-index: 9998;
+      transition: all 0.3s ease;
+      background: transparent;
       opacity: 0;
     }
     
@@ -479,44 +478,103 @@
       transition: color 0.3s ease;
     }
     
-    .slider-track {
+    /* Legacy slider styles - not used in demo */
+    .preview .slider-track {
       height: 5px;
       background: var(--gray-500);
       border-radius: 3px;
       position: relative;
     }
     
-    .slider-fill {
+    .preview .slider-fill {
       height: 100%;
       border-radius: 3px;
       position: absolute;
       left: 0;
       top: 0;
-      transition: width 0.1s ease, background 0.3s ease;
     }
     
-    .slider-thumb {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-      cursor: pointer;
-      transition: left 0.1s ease, background 0.3s ease;
-    }
-    
-    /* Custom range input */
+    /* Custom range input - visible thumb */
     .slider-input {
       position: absolute;
       width: 100%;
       height: 100%;
-      opacity: 0;
       cursor: pointer;
-      z-index: 5;
+      z-index: 10;
       top: 0;
       left: 0;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f5f5f5;
+      cursor: grab;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    
+    .slider-input::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 0 4px rgba(153, 17, 255, 0.4), 0 2px 8px rgba(0,0,0,0.6);
+      transform: scale(1.1);
+    }
+    
+    .slider-input::-webkit-slider-thumb:active {
+      cursor: grabbing;
+      transform: scale(0.95);
+    }
+    
+    .slider-input::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border-radius: 9999px;
+    }
+    
+    /* Firefox */
+    .slider-input::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f5f5f5;
+      cursor: grab;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    
+    .slider-input::-moz-range-track {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border-radius: 9999px;
+    }
+    
+    /* Temperature slider - orange thumb */
+    .temp-input::-webkit-slider-thumb {
+      background: #f97316;
+      border-color: rgba(249, 115, 22, 0.5);
+    }
+    .temp-input::-moz-range-thumb {
+      background: #f97316;
+      border-color: rgba(249, 115, 22, 0.5);
+    }
+    
+    /* Brightness slider - white thumb */
+    .bright-input::-webkit-slider-thumb {
+      background: #ffffff;
+      border-color: rgba(255,255,255,0.5);
+    }
+    .bright-input::-moz-range-thumb {
+      background: #ffffff;
+      border-color: rgba(255,255,255,0.5);
     }
     
     .slider-container {
@@ -851,6 +909,95 @@
     </div>
   </div>
 
+  <!-- Windows Installation Guide Modal -->
+  <div id="windows-install-modal" class="modal-overlay">
+    <div class="modal-container">
+      <!-- Close Button -->
+      <button class="modal-close" onclick="closeWindowsInstallGuide()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      
+      <!-- Two Column Layout -->
+      <div class="modal-layout">
+        <!-- Left: Visual -->
+        <div class="modal-visual">
+          <div class="visual-glow"></div>
+          <div class="app-preview">
+            <div class="app-menubar">
+              <div class="menubar-dot red"></div>
+              <span class="menubar-icon">🔴</span>
+              <span class="menubar-text">System Tray</span>
+            </div>
+            <div class="app-window">
+              <div class="window-header">
+                <span>Knockout Light</span>
+              </div>
+              <div class="window-content">
+                <div class="slider-preview">
+                  <div class="slider-label">Temperature</div>
+                  <div class="slider-track"><div class="slider-fill" style="width: 60%"></div></div>
+                </div>
+                <div class="slider-preview">
+                  <div class="slider-label">Brightness</div>
+                  <div class="slider-track"><div class="slider-fill" style="width: 80%"></div></div>
+                </div>
+                <div class="preset-pills">
+                  <span class="pill">Day</span>
+                  <span class="pill active">Night</span>
+                  <span class="pill">Sleep</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right: Steps -->
+        <div class="modal-steps">
+          <div class="steps-header">
+            <h2>Install <span class="text-red">Knockout</span> Light</h2>
+            <p>2 quick steps • Takes 10 seconds</p>
+          </div>
+          
+          <div class="steps-list">
+            <!-- Step 1 -->
+            <div id="win-step-1" class="step-row active">
+              <div class="step-number">1</div>
+              <div class="step-info">
+                <h3>Download the app</h3>
+                <p>Portable .exe — no install needed!</p>
+              </div>
+              <a href="https://github.com/permain2/knockoutlights/raw/main/KnockoutLight-Windows.exe" class="step-btn primary" onclick="markWinStepDone(1)">
+                Download
+              </a>
+            </div>
+            
+            <!-- Step 2 -->
+            <div id="win-step-2" class="step-row">
+              <div class="step-number">2</div>
+              <div class="step-info">
+                <h3>Run the app</h3>
+                <p>Double-click the .exe file to launch</p>
+              </div>
+              <span class="step-tag" style="background: rgba(34, 197, 94, 0.1); color: #22c55e;">✨ That's it!</span>
+            </div>
+          </div>
+          
+          <!-- Windows Defender note -->
+          <div class="terminal-box" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.2);">
+            <div class="terminal-label" style="color: #fbbf24;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Windows SmartScreen may show a warning:
+            </div>
+            <div style="padding: 12px 16px; color: rgba(255,255,255,0.7); font-size: 13px;">
+              Click <strong>"More info"</strong> → <strong>"Run anyway"</strong>
+              <br><span style="opacity: 0.6; font-size: 12px;">This is normal for new apps not in Microsoft's database yet.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <style>
     /* Modal Overlay */
     .modal-overlay {
@@ -1017,16 +1164,34 @@
     }
     
     .slider-track {
-      height: 4px;
+      height: 24px;
+      background: transparent;
+      border-radius: 9999px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .slider-track::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 6px;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-      overflow: hidden;
+      border-radius: 9999px;
+      transform: translateY(-50%);
     }
     
     .slider-fill {
-      height: 100%;
+      height: 6px;
       background: linear-gradient(90deg, #ef4444, #f87171);
-      border-radius: 2px;
+      border-radius: 9999px;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
     }
     
     .preset-pills {
@@ -1397,9 +1562,8 @@
             <span class="slider-value" id="temp-display">3400K</span>
           </div>
           <div class="slider-track">
-            <input type="range" class="slider-input" id="temp-slider" min="1200" max="6500" value="3400" oninput="updateTemperature(this.value)">
             <div class="slider-fill" id="temp-fill"></div>
-            <div class="slider-thumb" id="temp-thumb"></div>
+            <input type="range" class="slider-input temp-input" id="temp-slider" min="1200" max="6500" value="3400" oninput="updateTemperature(this.value)">
           </div>
         </div>
         <div class="slider-container">
@@ -1408,9 +1572,8 @@
             <span class="slider-value" id="bright-display">80%</span>
           </div>
           <div class="slider-track">
-            <input type="range" class="slider-input" id="bright-slider" min="20" max="100" value="80" oninput="updateBrightness(this.value)">
             <div class="slider-fill" id="bright-fill" style="background: white;"></div>
-            <div class="slider-thumb" id="bright-thumb" style="background: white;"></div>
+            <input type="range" class="slider-input bright-input" id="bright-slider" min="20" max="100" value="80" oninput="updateBrightness(this.value)">
           </div>
         </div>
       </div>
@@ -1486,11 +1649,11 @@
             <strong>macOS (.zip)</strong>
           </div>
         </a>
-        <a href="#" class="download-btn" style="opacity: 0.5; cursor: not-allowed;" onclick="alert('Windows version coming soon! For now, try f.lux (free) for Windows.'); return false;">
+        <a href="#" class="download-btn" onclick="showWindowsInstallGuide(); return false;">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5l8-1.2v7.8H3V5.5zm0 13l8 1.2v-7.6H3v6.4zm9 1.3l9 1.3V12h-9v7.8zm0-15.3v7.6h9V4.2l-9 .3z"/></svg>
           <div class="download-btn-text">
-            <span>Coming soon</span>
-            <strong>Windows</strong>
+            <span>Download Free</span>
+            <strong>Windows (.exe)</strong>
           </div>
         </a>
       </div>
@@ -1532,9 +1695,9 @@
     const tempDisplay = document.getElementById('temp-display');
     const brightDisplay = document.getElementById('bright-display');
     const tempFill = document.getElementById('temp-fill');
-    const tempThumb = document.getElementById('temp-thumb');
+    const tempSlider = document.getElementById('temp-slider');
     const brightFill = document.getElementById('bright-fill');
-    const brightThumb = document.getElementById('bright-thumb');
+    const brightSlider = document.getElementById('bright-slider');
     
     // Kelvin to RGB
     function kelvinToRGB(kelvin) {
@@ -1576,16 +1739,37 @@
       updateOverlay();
     }
     
-    // Update overlay
+    // Update overlay - makes the website RED like the real app!
     function updateOverlay() {
       if (!isActive) {
-        overlay.style.backgroundColor = 'transparent';
+        overlay.style.background = 'transparent';
+        document.body.style.filter = 'none';
         return;
       }
       
-      const rgb = kelvinToRGB(temperature);
-      const opacity = (100 - brightness) / 100 * 0.3 + (1 - temperature / 6500) * 0.25;
-      overlay.style.backgroundColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${Math.min(0.5, opacity)})`;
+      // Calculate warmth (0 = cool/6500K, 1 = warm/1200K)
+      const warmth = (6500 - temperature) / (6500 - 1200);
+      
+      // Calculate dim amount from brightness
+      const dimAmount = (100 - brightness) / 100;
+      
+      // Apply sepia + hue-rotate for warm color temperature effect
+      // Plus brightness reduction
+      const sepiaAmount = warmth * 0.8;
+      const hueRotate = warmth * -30; // Shift towards orange/red
+      const saturate = 1 + warmth * 0.3;
+      const brightnessFilter = 0.6 + (brightness / 100) * 0.4;
+      
+      document.body.style.filter = `
+        sepia(${sepiaAmount})
+        hue-rotate(${hueRotate}deg)
+        saturate(${saturate})
+        brightness(${brightnessFilter})
+      `;
+      
+      // Also add a subtle red overlay for extra warmth
+      const redOpacity = warmth * 0.15;
+      overlay.style.background = `rgba(255, 100, 50, ${redOpacity})`;
     }
     
     // Update temperature
@@ -1609,8 +1793,6 @@
       // Update slider
       tempFill.style.width = sliderPercent + '%';
       tempFill.style.background = color;
-      tempThumb.style.left = sliderPercent + '%';
-      tempThumb.style.background = color;
       
       updateOverlay();
     }
@@ -1630,7 +1812,6 @@
       
       // Update slider
       brightFill.style.width = sliderPercent + '%';
-      brightThumb.style.left = sliderPercent + '%';
       
       updateOverlay();
     }
@@ -1765,6 +1946,53 @@
     // Close modal on backdrop click
     document.getElementById('install-modal').addEventListener('click', (e) => {
       if (e.target.classList.contains('modal-overlay')) closeInstallGuide();
+    });
+    
+    // Windows Install Modal Functions
+    let winCurrentStep = 1;
+    
+    function showWindowsInstallGuide() {
+      const modal = document.getElementById('windows-install-modal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      winCurrentStep = 1;
+      // Reset steps
+      document.getElementById('win-step-1').classList.add('active');
+      document.getElementById('win-step-1').style.opacity = '1';
+      document.getElementById('win-step-2').classList.remove('active');
+      document.getElementById('win-step-2').style.opacity = '0.5';
+    }
+    
+    function closeWindowsInstallGuide() {
+      document.getElementById('windows-install-modal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    
+    function markWinStepDone(step) {
+      const step1 = document.getElementById('win-step-1');
+      const step2 = document.getElementById('win-step-2');
+      
+      // Mark step 1 as done
+      step1.classList.add('done');
+      step1.classList.remove('active');
+      step1.style.opacity = '0.7';
+      
+      // After 1 second, highlight step 2
+      setTimeout(() => {
+        step2.classList.add('active');
+        step2.style.opacity = '1';
+        winCurrentStep = 2;
+      }, 1000);
+    }
+    
+    // Windows modal escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeWindowsInstallGuide();
+    });
+    
+    // Windows modal backdrop click
+    document.getElementById('windows-install-modal').addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) closeWindowsInstallGuide();
     });
   </script>
 </body>
