@@ -321,6 +321,91 @@
       transition: transform 0.3s ease;
     }
     
+    /* Pulse Indicator for Toggle */
+    .toggle-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .pulse-indicator {
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+    }
+    
+    .pulse-ring {
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--red);
+      border-radius: 50%;
+      animation: pulse-ring 2s ease-out infinite;
+    }
+    
+    .pulse-ring.delay {
+      animation-delay: 0.5s;
+    }
+    
+    .pulse-dot {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes pulse-dot {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.3);
+      }
+    }
+    
+    .try-me-label {
+      position: absolute;
+      right: -70px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+      white-space: nowrap;
+      animation: bounce-x 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes bounce-x {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-50%) translateX(-5px); }
+    }
+    
+    /* Hide pulse when active */
+    .preview-toggle.active + .pulse-indicator,
+    .preview-toggle.active ~ .try-me-label {
+      display: none;
+    }
+    
     .mode-selector {
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--gray-500);
@@ -745,8 +830,71 @@
     
     /* Footer */
     footer {
-      padding: 40px 24px;
+      padding: 60px 24px 40px;
       border-top: 1px solid var(--gray-500);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .footer-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .footer-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.4;
+    }
+    
+    .orb-1 {
+      width: 200px;
+      height: 200px;
+      background: var(--red);
+      top: -50px;
+      left: 10%;
+      animation: float-orb 8s ease-in-out infinite;
+    }
+    
+    .orb-2 {
+      width: 150px;
+      height: 150px;
+      background: var(--orange);
+      bottom: -30px;
+      right: 20%;
+      animation: float-orb 10s ease-in-out infinite reverse;
+    }
+    
+    .orb-3 {
+      width: 100px;
+      height: 100px;
+      background: #fbbf24;
+      top: 20px;
+      right: 10%;
+      animation: float-orb 6s ease-in-out infinite;
+      animation-delay: -2s;
+    }
+    
+    .footer-glow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
+    }
+    
+    @keyframes float-orb {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-20px) scale(1.1);
+      }
     }
     
     .footer-container {
@@ -756,7 +904,82 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .footer-tagline {
+      color: var(--gray-400);
+      font-size: 13px;
+      margin: 0;
+    }
+    
+    .footer-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .footer-emoji-wave {
+      display: flex;
       gap: 16px;
+    }
+    
+    .wave-item {
+      font-size: 24px;
+      animation: wave-bounce 2s ease-in-out infinite;
+      display: inline-block;
+    }
+    
+    .wave-item:nth-child(1) { animation-delay: 0s; }
+    .wave-item:nth-child(2) { animation-delay: 0.1s; }
+    .wave-item:nth-child(3) { animation-delay: 0.2s; }
+    .wave-item:nth-child(4) { animation-delay: 0.3s; }
+    .wave-item:nth-child(5) { animation-delay: 0.4s; }
+    
+    @keyframes wave-bounce {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-8px) rotate(-5deg);
+      }
+      75% {
+        transform: translateY(-4px) rotate(5deg);
+      }
+    }
+    
+    .footer-made {
+      color: var(--gray-400);
+      font-size: 13px;
+      margin: 0;
+    }
+    
+    .footer-made .heart {
+      display: inline-block;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+    }
+    
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
     }
     
     .footer-links {
@@ -768,16 +991,28 @@
       color: var(--gray-300);
       text-decoration: none;
       font-size: 13px;
-      transition: color 0.2s;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     
     .footer-links a:hover {
-      color: white;
+      color: var(--red);
+      transform: translateY(-2px);
+    }
+    
+    .footer-links a svg {
+      transition: transform 0.2s;
+    }
+    
+    .footer-links a:hover svg {
+      transform: rotate(-10deg) scale(1.1);
     }
     
     .footer-copy {
       color: var(--gray-400);
-      font-size: 13px;
+      font-size: 12px;
     }
     
     /* Responsive */
@@ -899,7 +1134,7 @@
           </div>
           <div class="terminal-title">
             <span style="color: #ef4444; font-weight: 700;">Knockout</span><span style="color: #fff; font-weight: 300;">Light</span>
-            <span style="color: rgba(255,255,255,0.4); margin-left: 8px;">— Installer</span>
+            <span style="color: rgba(255,255,255,0.4); margin-left: 8px;">— Quick Install</span>
           </div>
           <div style="width: 60px;"></div>
         </div>
@@ -919,20 +1154,42 @@
             <div style="color: #22c55e; margin-top: 12px;">✓ Extracting KnockoutLight.app...</div>
             <div style="color: #22c55e;">✓ Removing quarantine flag...</div>
             <div style="color: #22c55e;">✓ Launching app...</div>
-            <div style="color: #ef4444; margin-top: 8px; font-weight: 600;">🎉 Knockout Light is now running!</div>
+            <div style="color: #ef4444; margin-top: 8px; font-weight: 600;">🎉 Knockout Light is running!</div>
           </div>
         </div>
         
-        <!-- Action Buttons -->
-        <div class="terminal-actions">
-          <button class="term-action-btn copy-btn" id="copy-term-btn" onclick="copyTerminalCommand()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy Command
-          </button>
-          <div class="term-divider"></div>
-          <p class="term-instruction">
-            <strong>Next:</strong> Press <kbd>⌘</kbd> + <kbd>Space</kbd> → Type "Terminal" → <kbd>⌘</kbd> + <kbd>V</kbd> → <kbd>Enter</kbd>
-          </p>
+        <!-- Steps -->
+        <div class="terminal-steps">
+          <div class="term-step" id="term-step-1">
+            <div class="term-step-num">1</div>
+            <div class="term-step-content">
+              <strong>Copy the command</strong>
+              <button class="term-action-btn" id="copy-term-btn" onclick="copyTerminalCommand()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="copy-btn-text">Copy</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="term-step" id="term-step-2">
+            <div class="term-step-num">2</div>
+            <div class="term-step-content">
+              <strong>Open Terminal</strong>
+              <div class="term-kbd-row">
+                <kbd>⌘</kbd> + <kbd>Space</kbd> → type <kbd>Terminal</kbd> → <kbd>Enter</kbd>
+              </div>
+            </div>
+          </div>
+          
+          <div class="term-step" id="term-step-3">
+            <div class="term-step-num">3</div>
+            <div class="term-step-content">
+              <strong>Paste & Run</strong>
+              <div class="term-kbd-row">
+                <kbd>⌘</kbd> + <kbd>V</kbd> → <kbd>Enter</kbd>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1146,25 +1403,65 @@
       line-height: 1.8;
     }
     
-    .terminal-actions {
+    .terminal-steps {
       background: rgba(0, 0, 0, 0.3);
       padding: 20px 24px;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       display: flex;
+      gap: 16px;
+    }
+    
+    .term-step {
+      flex: 1;
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+    
+    .term-step:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+    
+    .term-step-num {
+      width: 28px;
+      height: 28px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border-radius: 50%;
+      display: flex;
       align-items: center;
-      gap: 20px;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    
+    .term-step-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .term-step-content strong {
+      font-size: 14px;
+      color: white;
     }
     
     .term-action-btn {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
+      gap: 6px;
+      padding: 8px 16px;
       background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       color: white;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -1172,35 +1469,33 @@
     }
     
     .term-action-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px -3px rgba(239, 68, 68, 0.4);
     }
     
     .term-action-btn.copied {
       background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
     }
     
-    .term-divider {
-      width: 1px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    .term-instruction {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 13px;
-      margin: 0;
-      line-height: 1.5;
-    }
-    
-    .term-instruction kbd {
-      display: inline-block;
-      padding: 2px 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      font-family: inherit;
+    .term-kbd-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
       font-size: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .term-kbd-row kbd {
+      display: inline-block;
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
     }
     
     @keyframes typewriter {
@@ -1678,8 +1973,16 @@
           <span class="logo-knockout">Knockout</span>
           <span class="logo-light">Light</span>
         </div>
-        <div class="preview-toggle" id="toggle" onclick="toggleFilter()">
-          <div class="preview-toggle-thumb"></div>
+        <div class="toggle-wrapper">
+          <div class="preview-toggle" id="toggle" onclick="toggleFilter()">
+            <div class="preview-toggle-thumb"></div>
+          </div>
+          <div class="pulse-indicator" id="pulse-indicator">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring delay"></div>
+            <div class="pulse-dot"></div>
+          </div>
+          <span class="try-me-label">Try it!</span>
         </div>
       </div>
       
@@ -1844,16 +2147,44 @@
 
   <!-- Footer -->
   <footer>
+    <!-- Animated Background -->
+    <div class="footer-bg">
+      <div class="footer-orb orb-1"></div>
+      <div class="footer-orb orb-2"></div>
+      <div class="footer-orb orb-3"></div>
+      <div class="footer-glow"></div>
+    </div>
+    
     <div class="footer-container">
-      <div class="logo">
-        <span class="logo-knockout">Knockout</span>
-        <span class="logo-light">Light</span>
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-knockout">Knockout</span>
+          <span class="logo-light">Light</span>
+        </div>
+        <p class="footer-tagline">Protect your eyes. Sleep better. 🌙</p>
       </div>
-      <div class="footer-links">
-        <a href="https://github.com/permain2/knockout-light">GitHub</a>
-        <a href="#">Privacy</a>
+      
+      <div class="footer-center">
+        <div class="footer-emoji-wave">
+          <span class="wave-item">👁️</span>
+          <span class="wave-item">💤</span>
+          <span class="wave-item">🔴</span>
+          <span class="wave-item">✨</span>
+          <span class="wave-item">🌅</span>
+        </div>
+        <p class="footer-made">Made with <span class="heart">❤️</span> for your eyes</p>
       </div>
-      <div class="footer-copy">© 2024 Knockout Light. Free & Open Source.</div>
+      
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="https://github.com/permain2/knockoutlights" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="#">Privacy</a>
+        </div>
+        <div class="footer-copy">© 2024 Knockout Light</div>
+      </div>
     </div>
   </footer>
 
@@ -2203,16 +2534,21 @@
     function copyTerminalCommand() {
       navigator.clipboard.writeText(terminalCommand).then(() => {
         const btn = document.getElementById('copy-term-btn');
-        btn.innerHTML = `
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          Copied!
-        `;
+        const btnText = document.getElementById('copy-btn-text');
+        
         btn.classList.add('copied');
+        btnText.textContent = 'Copied!';
+        btn.querySelector('svg').innerHTML = '<polyline points="20 6 9 17 4 12"/>';
         
         // Show fake terminal output
         setTimeout(() => {
           document.getElementById('terminal-output').style.display = 'block';
         }, 500);
+        
+        // Highlight step 2
+        document.getElementById('term-step-1').style.opacity = '0.5';
+        document.getElementById('term-step-2').style.borderColor = 'rgba(239, 68, 68, 0.5)';
+        document.getElementById('term-step-2').style.background = 'rgba(239, 68, 68, 0.1)';
       });
     }
     
