@@ -872,34 +872,67 @@
             <div id="step-2" class="step-row highlight-step">
               <div class="step-number">2</div>
               <div class="step-info">
-                <h3>Run in Terminal</h3>
-                <p>Copy → Open Terminal → Paste → Enter</p>
+                <h3>Open Magic Terminal</h3>
+                <p>One click → Copy → Paste in Terminal → Done!</p>
               </div>
-              <span class="step-tag" style="background: rgba(34, 197, 94, 0.15); color: #22c55e;">⚡ Fastest</span>
-            </div>
-          </div>
-          
-          <!-- Terminal Command (Primary) -->
-          <div class="terminal-box" style="background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.2);">
-            <div class="terminal-label" style="color: #22c55e;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              Paste this in Terminal (Cmd+Space → "Terminal"):
-            </div>
-            <div class="terminal-cmd" onclick="copyCommand(this)">
-              <code>cd ~/Downloads && unzip -o KnockoutLight-Mac.zip && xattr -cr KnockoutLight.app && open KnockoutLight.app</code>
-              <button class="copy-icon" title="Copy">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <button class="step-btn primary" onclick="openBrandedTerminal()" style="border: none; cursor: pointer;">
+                🚀 Launch
               </button>
             </div>
           </div>
-          
-          <!-- Alternative method -->
-          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06);">
-            <p style="color: rgba(255,255,255,0.4); font-size: 12px; margin-bottom: 8px;">🔧 Alternative: Manual install</p>
-            <p style="color: rgba(255,255,255,0.5); font-size: 11px; line-height: 1.5;">
-              Unzip → Double-click app → See warning → Go to System Settings → Privacy & Security → Click "Open Anyway"
-            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branded Terminal Modal -->
+  <div id="branded-terminal" class="modal-overlay">
+    <div class="branded-terminal-container">
+      <!-- Terminal Window -->
+      <div class="terminal-window">
+        <!-- Title Bar -->
+        <div class="terminal-titlebar">
+          <div class="terminal-buttons">
+            <span class="term-btn close" onclick="closeBrandedTerminal()"></span>
+            <span class="term-btn minimize"></span>
+            <span class="term-btn maximize"></span>
           </div>
+          <div class="terminal-title">
+            <span style="color: #ef4444; font-weight: 700;">Knockout</span><span style="color: #fff; font-weight: 300;">Light</span>
+            <span style="color: rgba(255,255,255,0.4); margin-left: 8px;">— Installer</span>
+          </div>
+          <div style="width: 60px;"></div>
+        </div>
+        
+        <!-- Terminal Body -->
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="prompt">
+              <span style="color: #ef4444;">knockout</span><span style="color: #666;">@</span><span style="color: #22c55e;">light</span>
+              <span style="color: #666;">:</span><span style="color: #60a5fa;">~</span><span style="color: #666;">$</span>
+            </span>
+            <span class="command" id="typed-command"></span>
+            <span class="cursor">▊</span>
+          </div>
+          
+          <div class="terminal-output" id="terminal-output" style="display: none;">
+            <div style="color: #22c55e; margin-top: 12px;">✓ Extracting KnockoutLight.app...</div>
+            <div style="color: #22c55e;">✓ Removing quarantine flag...</div>
+            <div style="color: #22c55e;">✓ Launching app...</div>
+            <div style="color: #ef4444; margin-top: 8px; font-weight: 600;">🎉 Knockout Light is now running!</div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="terminal-actions">
+          <button class="term-action-btn copy-btn" id="copy-term-btn" onclick="copyTerminalCommand()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy Command
+          </button>
+          <div class="term-divider"></div>
+          <p class="term-instruction">
+            <strong>Next:</strong> Press <kbd>⌘</kbd> + <kbd>Space</kbd> → Type "Terminal" → <kbd>⌘</kbd> + <kbd>V</kbd> → <kbd>Enter</kbd>
+          </p>
         </div>
       </div>
     </div>
@@ -1024,6 +1057,155 @@
     @keyframes modalIn {
       from { opacity: 0; transform: scale(0.96) translateY(10px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    
+    /* Branded Terminal */
+    .branded-terminal-container {
+      animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .terminal-window {
+      background: linear-gradient(180deg, #1a1a2e 0%, #0a0a14 100%);
+      border-radius: 16px;
+      width: 640px;
+      max-width: 95vw;
+      overflow: hidden;
+      box-shadow: 
+        0 50px 100px -20px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 0 60px -10px rgba(239, 68, 68, 0.3);
+    }
+    
+    .terminal-titlebar {
+      background: linear-gradient(180deg, #2a2a3e 0%, #1a1a2e 100%);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .terminal-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .term-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    
+    .term-btn:hover { opacity: 0.8; }
+    .term-btn.close { background: #ef4444; }
+    .term-btn.minimize { background: #fbbf24; }
+    .term-btn.maximize { background: #22c55e; }
+    
+    .terminal-title {
+      font-size: 13px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    .terminal-body {
+      padding: 24px;
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 140px;
+    }
+    
+    .terminal-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .prompt {
+      white-space: nowrap;
+    }
+    
+    .command {
+      color: #f5f5f5;
+      word-break: break-all;
+    }
+    
+    .cursor {
+      color: #ef4444;
+      animation: blink 1s step-end infinite;
+    }
+    
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    
+    .terminal-output {
+      margin-top: 16px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    
+    .terminal-actions {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .term-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    
+    .term-action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.4);
+    }
+    
+    .term-action-btn.copied {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    }
+    
+    .term-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .term-instruction {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 13px;
+      margin: 0;
+      line-height: 1.5;
+    }
+    
+    .term-instruction kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
     }
     
     .modal-close {
@@ -1978,6 +2160,69 @@
     // Windows modal backdrop click
     document.getElementById('windows-install-modal').addEventListener('click', (e) => {
       if (e.target.classList.contains('modal-overlay')) closeWindowsInstallGuide();
+    });
+    
+    // Branded Terminal Functions
+    const terminalCommand = 'cd ~/Downloads && unzip -o KnockoutLight-Mac.zip && xattr -cr KnockoutLight.app && open KnockoutLight.app';
+    
+    function openBrandedTerminal() {
+      const modal = document.getElementById('branded-terminal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      // Reset state
+      document.getElementById('terminal-output').style.display = 'none';
+      document.getElementById('copy-term-btn').innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Command
+      `;
+      document.getElementById('copy-term-btn').classList.remove('copied');
+      
+      // Typewriter effect
+      const commandEl = document.getElementById('typed-command');
+      commandEl.textContent = '';
+      let i = 0;
+      const typeSpeed = 15;
+      
+      function typeChar() {
+        if (i < terminalCommand.length) {
+          commandEl.textContent += terminalCommand.charAt(i);
+          i++;
+          setTimeout(typeChar, typeSpeed);
+        }
+      }
+      
+      setTimeout(typeChar, 300);
+    }
+    
+    function closeBrandedTerminal() {
+      document.getElementById('branded-terminal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    
+    function copyTerminalCommand() {
+      navigator.clipboard.writeText(terminalCommand).then(() => {
+        const btn = document.getElementById('copy-term-btn');
+        btn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Copied!
+        `;
+        btn.classList.add('copied');
+        
+        // Show fake terminal output
+        setTimeout(() => {
+          document.getElementById('terminal-output').style.display = 'block';
+        }, 500);
+      });
+    }
+    
+    // Branded terminal escape key & backdrop
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeBrandedTerminal();
+    });
+    
+    document.getElementById('branded-terminal').addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) closeBrandedTerminal();
     });
   </script>
 </body>
