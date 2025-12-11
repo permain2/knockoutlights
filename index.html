@@ -326,52 +326,42 @@
       position: relative;
       display: flex;
       align-items: center;
-      gap: 12px;
     }
     
     .pulse-indicator {
       position: absolute;
-      right: 27px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 28px;
-      height: 28px;
-      pointer-events: none;
-    }
-    
-    .pulse-ring {
-      position: absolute;
       inset: 0;
+      pointer-events: none;
+      border-radius: 100px;
       border: 2px solid var(--red);
-      border-radius: 50%;
-      animation: pulse-ring 2s ease-out infinite;
+      animation: pulse-toggle 2s ease-out infinite;
     }
     
-    .pulse-ring.delay {
-      animation-delay: 0.5s;
-    }
-    
-    .pulse-dot {
+    .pulse-ring, .pulse-dot {
       display: none;
     }
     
-    @keyframes pulse-ring {
+    @keyframes pulse-toggle {
       0% {
-        transform: scale(0.8);
-        opacity: 1;
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.15);
+        opacity: 0.4;
       }
       100% {
-        transform: scale(1.5);
-        opacity: 0;
+        transform: scale(1);
+        opacity: 0.8;
       }
     }
     
     .try-me-label {
       position: absolute;
-      right: -45px;
+      left: calc(100% + 12px);
       top: 50%;
       transform: translateY(-50%);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--red);
       white-space: nowrap;
@@ -380,11 +370,11 @@
     
     @keyframes bounce-x {
       0%, 100% { transform: translateY(-50%) translateX(0); }
-      50% { transform: translateY(-50%) translateX(-5px); }
+      50% { transform: translateY(-50%) translateX(5px); }
     }
     
     /* Hide pulse when active */
-    .preview-toggle.active + .pulse-indicator,
+    .preview-toggle.active ~ .pulse-indicator,
     .preview-toggle.active ~ .try-me-label {
       display: none;
     }
@@ -1940,11 +1930,7 @@
           <div class="preview-toggle" id="toggle" onclick="toggleFilter()">
             <div class="preview-toggle-thumb"></div>
           </div>
-          <div class="pulse-indicator" id="pulse-indicator">
-            <div class="pulse-ring"></div>
-            <div class="pulse-ring delay"></div>
-            <div class="pulse-dot"></div>
-          </div>
+          <div class="pulse-indicator" id="pulse-indicator"></div>
           <span class="try-me-label">Try it!</span>
         </div>
       </div>
