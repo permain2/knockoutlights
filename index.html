@@ -996,78 +996,73 @@
 
   <!-- Installation Guide Modal -->
   <div id="install-modal" class="modal-overlay">
-    <div class="modal-container">
+    <div class="modal-container simple-modal">
       <!-- Close Button -->
       <button class="modal-close" onclick="closeInstallGuide()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
       
-      <!-- Two Column Layout -->
-      <div class="modal-layout">
-        <!-- Left: Visual -->
-        <div class="modal-visual">
-          <div class="visual-glow"></div>
-          <div class="app-preview">
-            <div class="app-menubar">
-              <div class="menubar-dot red"></div>
-              <span class="menubar-icon">🔴</span>
-              <span class="menubar-text">Menu Bar</span>
+      <div class="simple-install">
+        <h2>Install <span class="text-red">Knockout</span> Light</h2>
+        <p class="simple-subtitle">3 simple steps • No technical skills needed</p>
+        
+        <div class="simple-steps">
+          <!-- Step 1: Download -->
+          <div class="simple-step">
+            <div class="simple-step-num">1</div>
+            <div class="simple-step-content">
+              <h3>📥 Download</h3>
+              <p>Click to download the app</p>
+              <a href="https://github.com/permain2/knockoutlights/raw/main/KnockoutLight-Mac.zip" class="simple-download-btn" onclick="markStep1Done()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download for Mac
+              </a>
             </div>
-            <div class="app-window">
-              <div class="window-header">
-                <span>Knockout Light</span>
+          </div>
+          
+          <!-- Step 2: Unzip -->
+          <div class="simple-step">
+            <div class="simple-step-num">2</div>
+            <div class="simple-step-content">
+              <h3>📂 Unzip</h3>
+              <p>Double-click the downloaded <code>.zip</code> file to unzip it</p>
+              <div class="simple-visual">
+                <div class="file-icon zip">📦 .zip</div>
+                <span class="arrow">→</span>
+                <div class="file-icon app">🔴 App</div>
               </div>
-              <div class="window-content">
-                <div class="slider-preview">
-                  <div class="slider-label">Temperature</div>
-                  <div class="slider-track"><div class="slider-fill" style="width: 60%"></div></div>
+            </div>
+          </div>
+          
+          <!-- Step 3: Right-click Open -->
+          <div class="simple-step">
+            <div class="simple-step-num">3</div>
+            <div class="simple-step-content">
+              <h3>🖱️ Right-click → Open</h3>
+              <p><strong>Important:</strong> Don't double-click! Instead:</p>
+              <div class="right-click-guide">
+                <div class="guide-item">
+                  <span class="guide-num">①</span>
+                  <span><strong>Right-click</strong> on KnockoutLight.app</span>
                 </div>
-                <div class="slider-preview">
-                  <div class="slider-label">Brightness</div>
-                  <div class="slider-track"><div class="slider-fill" style="width: 80%"></div></div>
+                <div class="guide-item">
+                  <span class="guide-num">②</span>
+                  <span>Click <strong>"Open"</strong> from the menu</span>
                 </div>
-                <div class="preset-pills">
-                  <span class="pill">Day</span>
-                  <span class="pill active">Night</span>
-                  <span class="pill">Sleep</span>
+                <div class="guide-item">
+                  <span class="guide-num">③</span>
+                  <span>Click <strong>"Open"</strong> again in the popup</span>
                 </div>
+              </div>
+              <div class="tip-box">
+                💡 <strong>Why right-click?</strong> macOS blocks apps from unknown developers. Right-clicking bypasses this safely.
               </div>
             </div>
           </div>
         </div>
         
-        <!-- Right: Steps -->
-        <div class="modal-steps">
-          <div class="steps-header">
-            <h2>Install <span class="text-red">Knockout</span> Light</h2>
-            <p>2 quick steps • Takes 10 seconds</p>
-          </div>
-          
-          <div class="steps-list">
-            <!-- Step 1 -->
-            <div id="step-1" class="step-row active">
-              <div class="step-number">1</div>
-              <div class="step-info">
-                <h3>Download the app</h3>
-                <p>Tiny 40 KB zip file</p>
-              </div>
-              <a href="https://github.com/permain2/knockoutlights/raw/main/KnockoutLight-Mac.zip" class="step-btn primary" onclick="markStepDone(1)">
-                Download
-              </a>
-            </div>
-            
-            <!-- Step 2 - Terminal (Primary) -->
-            <div id="step-2" class="step-row highlight-step">
-              <div class="step-number">2</div>
-              <div class="step-info">
-                <h3>Open Magic Terminal</h3>
-                <p>One click → Copy → Paste in Terminal → Done!</p>
-              </div>
-              <button class="step-btn primary" onclick="openBrandedTerminal()" style="border: none; cursor: pointer;">
-                🚀 Launch
-              </button>
-            </div>
-          </div>
+        <div class="simple-footer">
+          <p>🎉 That's it! Look for the 🔴 icon in your menu bar</p>
         </div>
       </div>
     </div>
@@ -1267,6 +1262,162 @@
     @keyframes modalIn {
       from { opacity: 0; transform: scale(0.96) translateY(10px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    
+    /* Simple Install Modal */
+    .simple-modal {
+      max-width: 520px;
+      padding: 40px;
+    }
+    
+    .simple-install h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .simple-subtitle {
+      color: #6b7280;
+      margin-bottom: 32px;
+    }
+    
+    .simple-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .simple-step {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    
+    .simple-step-num {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    
+    .simple-step-content {
+      flex: 1;
+    }
+    
+    .simple-step-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .simple-step-content p {
+      color: #9ca3af;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    .simple-step-content code {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    .simple-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .simple-download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    }
+    
+    .simple-visual {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    
+    .file-icon {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    
+    .simple-visual .arrow {
+      color: #6b7280;
+      font-size: 20px;
+    }
+    
+    .right-click-guide {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    
+    .guide-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #d1d5db;
+    }
+    
+    .guide-num {
+      width: 24px;
+      height: 24px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .tip-box {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #93c5fd;
+      margin-top: 12px;
+    }
+    
+    .simple-footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    
+    .simple-footer p {
+      color: #22c55e;
+      font-weight: 500;
     }
     
     /* Branded Terminal */
@@ -2353,6 +2504,15 @@
           step2.style.transform = 'scale(1)';
         }, 300);
       }, 1000);
+    }
+    
+    function markStep1Done() {
+      // Simple visual feedback when download starts
+      const btn = event.target.closest('.simple-download-btn');
+      if (btn) {
+        btn.innerHTML = '✓ Downloading...';
+        btn.style.background = '#22c55e';
+      }
     }
     
     function copyCommand(element) {
