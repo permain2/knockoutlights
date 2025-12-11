@@ -815,20 +815,20 @@
               <div class="step-number">2</div>
               <div class="step-info">
                 <h3>Open the app</h3>
-                <p>Unzip and double-click KnockoutLight.app</p>
+                <p>Unzip → Double-click → See "Can't verify" warning</p>
               </div>
-              <span class="step-tag">Simple</span>
+              <span class="step-tag">⚠️ Expected</span>
             </div>
             
             <!-- Step 3 -->
-            <div id="step-3" class="step-row">
+            <div id="step-3" class="step-row highlight-step">
               <div class="step-number">3</div>
               <div class="step-info">
-                <h3>Allow in Privacy Settings</h3>
-                <p>Click "Open Anyway" when prompted</p>
+                <h3>Click "Open Anyway"</h3>
+                <p>Go to Settings → Privacy & Security → Open Anyway</p>
               </div>
-              <a href="x-apple.systempreferences:com.apple.preference.security?General" class="step-btn secondary">
-                Open
+              <a href="x-apple.systempreferences:com.apple.preference.security?General" class="step-btn primary">
+                Open Settings
               </a>
             </div>
           </div>
@@ -1178,12 +1178,27 @@
     
     .step-tag {
       padding: 5px 10px;
-      background: rgba(34, 197, 94, 0.1);
-      color: #22c55e;
+      background: rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
       border-radius: 6px;
       font-size: 11px;
       font-weight: 600;
       flex-shrink: 0;
+    }
+    
+    .step-row.highlight-step {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    
+    .step-row.highlight-step .step-number {
+      background: #ef4444;
+      color: white;
+      box-shadow: 0 4px 12px -4px rgba(239, 68, 68, 0.5);
+    }
+    
+    .step-row.highlight-step .step-info h3 {
+      color: #ef4444;
     }
     
     /* Terminal Box */
@@ -1667,7 +1682,13 @@
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       currentStep = 1;
-      updateStepProgress();
+      // Reset all steps
+      document.querySelectorAll('.step-row').forEach(row => {
+        row.classList.remove('active', 'done');
+        row.style.opacity = '0.5';
+      });
+      document.getElementById('step-1').classList.add('active');
+      document.getElementById('step-1').style.opacity = '1';
     }
     
     function closeInstallGuide() {
@@ -1678,22 +1699,49 @@
     function updateStepProgress() {
       document.querySelectorAll('.step-row').forEach((row, i) => {
         row.classList.remove('active', 'done');
-        if (i + 1 < currentStep) row.classList.add('done');
-        else if (i + 1 === currentStep) row.classList.add('active');
+        row.style.opacity = '0.5';
+        if (i + 1 < currentStep) {
+          row.classList.add('done');
+          row.style.opacity = '0.7';
+        } else if (i + 1 === currentStep) {
+          row.classList.add('active');
+          row.style.opacity = '1';
+        }
       });
     }
     
     function markStepDone(step) {
-      const currentRow = document.getElementById('step-' + step);
-      if (currentRow) {
-        currentRow.classList.add('done');
-        currentRow.classList.remove('active');
-      }
+      const step1 = document.getElementById('step-1');
+      const step2 = document.getElementById('step-2');
+      const step3 = document.getElementById('step-3');
       
+      // Mark step 1 as done immediately
+      step1.classList.add('done');
+      step1.classList.remove('active');
+      step1.style.opacity = '0.7';
+      
+      // After 1 second, highlight step 2
       setTimeout(() => {
-        currentStep = step + 1;
-        updateStepProgress();
-      }, 600);
+        step2.classList.add('active');
+        step2.style.opacity = '1';
+        currentStep = 2;
+      }, 1000);
+      
+      // After 3 seconds, highlight step 3 (the important one)
+      setTimeout(() => {
+        step2.classList.add('done');
+        step2.classList.remove('active');
+        step2.style.opacity = '0.7';
+        step3.classList.add('active');
+        step3.style.opacity = '1';
+        currentStep = 3;
+        
+        // Add extra attention to step 3
+        step3.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+          step3.style.transform = 'scale(1)';
+        }, 300);
+      }, 3000);
     }
     
     function copyCommand(element) {
